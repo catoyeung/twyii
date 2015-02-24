@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends Controller
+class GroupController extends Controller
 {
   public function actionIndex()
   {
@@ -8,15 +8,13 @@ class UserController extends Controller
     $criteria = new CDbCriteria();
     if(strlen($search_text) > 0)
     {
-      $criteria->addSearchCondition( 'username', $search_text, true, 'OR' );
-      $criteria->addSearchCondition( 'useremail', $search_text, true, 'OR' );
+      $criteria->addSearchCondition( 'groupname', $search_text, true, 'OR' );
     }
 
-
     $dataProvider=new CActiveDataProvider(
-      UserModel::model(),
+      GroupModel::model(),
       array(
-        'id'=>'userid',
+        'id'=>'groupid',
         'pagination'=>array(
           'pageSize'=>10
         ),
@@ -32,36 +30,29 @@ class UserController extends Controller
   {
     if ($_SERVER['REQUEST_METHOD'] == 'GET')
     {
-      $model = new UserModel();
+      $model = new GroupModel();
       $this->render('create',array(
         'model'=>$model,
       ));
     } else if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
-      if(isset($_POST['UserModel']))
+      if(isset($_POST['GroupModel']))
       {
-        $model = new UserModel();
-        $model->attributes = $_POST['UserModel'];
+        $model = new GroupModel();
+        $model->attributes = $_POST['GroupModel'];
         if (!$model->validate()) {
           $this->render('create',array(
             'model'=>$model
           ));
           return;
         }
-        if($model->register())
-          $this->redirect(array('index'));
+        $model->save();
+        foreach($_POST['members'] as $member_id)
+        {
+          $user2model =
+        }
+        $this->redirect(array('index'));
       }
-    }
-  }
-
-  public function actionError()
-  {
-    if($error=Yii::app()->errorHandler->error)
-    {
-      if(Yii::app()->request->isAjaxRequest)
-        echo $error['message'];
-      else
-        $this->render('error', $error);
     }
   }
 }

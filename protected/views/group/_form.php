@@ -21,37 +21,25 @@ $this->renderPartial('//config/cpanel',
     <?php echo CHtml::errorSummary($model); ?>
     <table>
       <tr>
-        <td>登入名稱</td>
+        <td>群組名稱</td>
         <td>
-          <?php echo $form->textField($model,'username'); ?>
+          <?php echo $form->textField($model,'groupname'); ?>
         </td>
       </tr>
-      <?php
-      if($model->isNewRecord) {
-        echo '<tr>';
-        echo '<td>密碼</td><td>'.$form->passwordField($model,'register_password').'</td>';
-        echo '</tr>';
-        echo '<tr>';
-        echo '<td>確認密碼</td><td>'.$form->passwordField($model,'confirm_register_password').'</td>';
-        echo '</tr>';
-      }
-      ?>
       <tr>
-        <td>Email</td>
+        <td>群組組員</td>
         <td>
-          <?php echo $form->textField($model,'useremail'); ?>
+          <?php
+          //$model->members = GroupModel::model()->with('members')->findAll();
+          echo $form->ListBox($model, 'members',
+          CHtml::listData(UserModel::model()->findAll(), 'userid', 'username'),
+          array('multiple'=>'multiple', 'class'=>'chosen')); ?>
         </td>
       </tr>
       <tr>
         <td>有效</td>
         <td>
           <?php echo $form->checkBox($model,'active'); ?>
-        </td>
-      </tr>
-      <tr>
-        <td>是否管理員?</td>
-        <td>
-          <?php echo $form->checkBox($model,'is_admin'); ?>
         </td>
       </tr>
       <tr>

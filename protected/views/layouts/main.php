@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $loggedInUserName = '';
 if(!Yii::app()->user->isGuest)
 {
@@ -13,27 +13,30 @@ if(!Yii::app()->user->isGuest)
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="language" content="en">
 
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/reset.css"/>
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css"/>
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery-ui.min.css"/>
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery.ui.timepicker.css"/>
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/chosen.min.css"/>
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/sweet-alert.css"/>
-	<!--[if IE 9]>
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/sweet-ie9.css"/>
-	<![endif]-->
-
-	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery-1.11.2.min.js" type="text/javascript"></script>
-	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery-ui.min.js" type="text/javascript"></script>
-	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.ui.timepicker.js" type="text/javascript"></script>
-	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/chosen.jquery.min.js" type="text/javascript"></script>
-	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.popupoverlay.js" type="text/javascript"></script>
-	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/sweet-alert.min.js" type="text/javascript"></script>
+	<?php
+	$baseUrl = Yii::app()->request->baseUrl;
+	$cs = Yii::app()->getClientScript();
+	$cs->registerCssFile($baseUrl.'/css/reset.css');
+	$cs->registerCssFile($baseUrl.'/css/main.css');
+	$cs->registerCssFile($baseUrl.'/css/jquery-ui.min.css');
+	$cs->registerCssFile($baseUrl.'/css/jquery.ui.timepicker.css');
+	$cs->registerCssFile($baseUrl.'/css/chosen.min.css');
+	$cs->registerCssFile($baseUrl.'/css/sweet-alert.css');
+	$cs->registerCssFile($baseUrl.'/css/sweet-ie9.css','screen, projection', 'lt IE 9');
+	$cs->registerScriptFile($baseUrl.'/js/jquery-1.11.2.min.js');
+	$cs->registerScriptFile($baseUrl.'/js/jquery-ui.min.js');
+	$cs->registerScriptFile($baseUrl.'/js/jquery.ui.timepicker.js');
+	$cs->registerScriptFile($baseUrl.'/js/chosen.jquery.min.js');
+	$cs->registerScriptFile($baseUrl.'/js/jquery.popupoverlay.js');
+	$cs->registerScriptFile($baseUrl.'/js/sweet-alert.min.js');
+	?>
 
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
 <body>
+
+
 
 <div class="container" id="page">
 
@@ -57,7 +60,7 @@ if(!Yii::app()->user->isGuest)
 
 	<div id="search-box">
 			<img id="logo" src="<?php echo Yii::app()->request->baseUrl; ?>/images/twlogo.png" alt="Tung Wah Group"/>
-		<div id="search-div">
+		<!--<div id="search-div">
 			<form action="/search/index" method="GET">
 				<select id="search-category" class="chosen" name="search_category">
 					<option>所有紀錄</option>
@@ -70,19 +73,8 @@ if(!Yii::app()->user->isGuest)
 				<input id="search-submit" type="submit" value="搜尋" class="btn" />
 				<button id="search-advance" class="btn advanced-search-btn">進階搜尋</button>
 			</form>
-		</div>
-		<script>
-			$(document).ready(function(){
-				$('.chosen').chosen();
-			});
-		</script>
+		</div>-->
 	</div>
-
-	<?php if(isset($this->breadcrumbs)):?>
-		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-			'links'=>$this->breadcrumbs,
-		)); ?><!-- breadcrumbs -->
-	<?php endif?>
 
 	<div id="wrapper" class="clearfix">
 		<?php echo $content; ?>
@@ -98,6 +90,7 @@ if(!Yii::app()->user->isGuest)
 	</div><!-- footer -->
 	<script>
 	$(document).ready(function(){
+		$('.chosen').chosen();
 		<?php if(isset($this->popup_message)):?>
 		sweetAlert("", "<?php echo $this->popup_message['message']; ?>", "<?php echo $this->popup_message['type']; ?>");
 		<?php endif?>

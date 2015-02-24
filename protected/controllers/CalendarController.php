@@ -2,22 +2,83 @@
 
 class CalendarController extends Controller
 {
-	/**
-	 * This is the default 'index' action that is invoked
-	 * when an action is not explicitly requested by users.
-	 */
 	public function actionIndex()
 	{
-		// renders the view file 'protected/views/site/index.php'
-		// using the default layout 'protected/views/layouts/main.php'
-		if (Yii::app()->user->isGuest)
-      $this->redirect(Yii::app()->createUrl('site/login'));
-		$this->render('index');
+		$assigned_to_users = UserModel::model()->findAll();
+		$events = EventModel::model()->getEventsInCalendarFormat();
+		$this->render('index',
+			array(
+				'assigned_to_users'=>$assigned_to_users,
+				'events'=>$events
+			)
+		);
 	}
 
-	/**
-	 * This is the action to handle external exceptions.
-	 */
+	public function actionCreateEvent()
+	{
+		if ($_SERVER['REQUEST_METHOD'] == 'POST')
+		{
+			$model = new EventModel();
+			$model->setAttributes(array(
+				'subject'=>$_POST['subject'],
+				'description'=>$_POST['description'],
+				'assigned_to'=>(int)$_POST['assigned_to'],
+				'from_datetime'=>DateTime::createFromFormat('m/d/Y H:i', $_POST['start_date'].' '.$_POST['start_time'])->format('Y-m-d H:i:00'),
+				'to_datetime'=>DateTime::createFromFormat('m/d/Y H:i', $_POST['end_date'].' '.$_POST['end_time'])->format('Y-m-d H:i:00')
+			));
+			if($model->validate()){
+				$model->save();
+				$this->redirect('index');
+			} else {
+				$popup_message = array(
+					'type'=>'error',
+					'message'=>$model->getErrors()
+				);
+				$this->popup_message = $popup_message;
+				$this->render('index');
+			}
+		}
+	}
+
+	public function actionEditEvent()
+	{
+		if ($_SERVER['REQUEST_METHOD'] == 'POST')
+		{
+			$model = EventModel::model()->findByPk($_POST['id']);
+			$model->setAttributes(array(
+				'subject'=>$_POST['subject'],
+				'description'=>$_POST['description'],
+				'assigned_to'=>(int)$_POST['assigned_to'],
+				'from_datetime'=>DateTime::createFromFormat('m/d/Y H:i', $_POST['start_date'].' '.$_POST['start_time'])->format('Y-m-d H:i:00'),
+				'to_datetime'=>DateTime::createFromFormat('m/d/Y H:i', $_POST['end_date'].' '.$_POST['end_time'])->format('Y-m-d H:i:00')
+			));
+			if($model->validate()){
+				$model->save();
+				$this->redirect(array('index'));
+			} else {
+				$popup_message = array(
+					'type'=>'error',
+					'message'=>$model->getErrors()
+				);
+				$this->popup_message = $popup_message;
+				$this->render('index');
+			}
+		}
+	}
+
+	public function actionDeleteEvent()
+	{
+		if ($_SERVER['REQUEST_METHOD'] == 'POST')
+		{
+			$model = EventModel::model()->findByPk($_POST['id']);
+			if($model->delete()){
+				$this->redirect(array('index'));
+			} else {
+				$this->render('error', $error);
+			}
+		}
+	}
+
 	public function actionError()
 	{
 		if($error=Yii::app()->errorHandler->error)

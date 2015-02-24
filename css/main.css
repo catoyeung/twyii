@@ -24,6 +24,13 @@ input[type=password] {
 	box-sizing: border-box;
 }
 
+textarea {
+	border-radius: 3px;
+	border: 1px solid #888888;
+	padding: 3px;
+	box-sizing: border-box;
+}
+
 a
 {
 	text-decoration: none;
@@ -66,6 +73,15 @@ button, input[type=submit] {
 	background: #51a351;
 }
 
+.btn-red {
+	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+	background: #ce4844;
+}
+
+.btn-red:hover {
+	background: #ce3733;
+}
+
 .clearfix:after {
 	visibility: hidden;
 	display: block;
@@ -95,7 +111,6 @@ button, input[type=submit] {
 #header #mainmenu li
 {
 	float: left;
-	/*margin-right: 15px;*/
 	padding: 15px;
 }
 
@@ -116,12 +131,6 @@ button, input[type=submit] {
 	background: #224937;
 }
 
-/*.logo
-{
-	margin-right: 50px;
-	overflow: hidden;
-	float: left;
-}*/
 
 #logo
 {
@@ -140,7 +149,6 @@ button, input[type=submit] {
 	position: relative;
 	z-index: 5;
 	min-height: 80px;
-	/*overflow: hidden;*/
 }
 
 #search-div
@@ -273,6 +281,7 @@ button, input[type=submit] {
 .list-view-entries-table
 {
 	width: 100%;
+	border: 1px solid #999;
 }
 
 .list-view-entries-table th,
@@ -294,7 +303,6 @@ button, input[type=submit] {
 
 .list-view-entries-table tr
 {
-	border-top: 1px solid #999;
 	border-bottom: 1px solid #999;
 }
 
@@ -347,14 +355,15 @@ button, input[type=submit] {
 #calendar-workbench
 {
 	float: left;
-	width: 700px;
+	width: 1000px;
 	padding: 15px;
 	overflow:hidden;
+
 }
 
 #calendar
 {
-	max-width: 700px;
+	max-width: 1000px;
 }
 
 #pop-up-div
@@ -388,8 +397,8 @@ button, input[type=submit] {
 
 #pop-up-div input[type=text]
 {
-	width: 100%;
 	box-sizing: border-box;
+	width: 175px;
 }
 
 #pop-up-div
@@ -400,6 +409,7 @@ button, input[type=submit] {
 #pop-up-div .field-label
 {
 	padding: 10px;
+	vertical-align: text-top;
 }
 
 #pop-up-div .field
@@ -421,9 +431,16 @@ button, input[type=submit] {
 	float: right;
 }
 
-#pop-up-div .chosen
+#pop-up-div .chosen-container
 {
-	width: 100%;
+	width: 175px !important;
+}
+
+.event-textarea
+{
+	resize: none;
+	width: 540px;
+	height: 80px;
 }
 
 .workbench
@@ -432,6 +449,7 @@ button, input[type=submit] {
 	width: 1100px;
 	overflow:hidden;
 	border-left: 1px solid #999;
+	min-height: 700px;
 }
 
 .entity-div
@@ -482,6 +500,46 @@ button, input[type=submit] {
 	border-bottom: 2px solid #CCC;
 	font-size: 24px;
 	line-height: 40px;
+}
+
+.list-view-entries-div .pager
+{
+	height: 50px;
+
+}
+
+.list-view-entries-div .pager,
+.list-view-entries-div .summary,
+.list-view-entries-div .sorter
+{
+	font-size: 15px !important;
+	line-height: 20px !important;
+}
+
+ul.yiiPager .previous a,
+ul.yiiPager .next a,
+ul.yiiPager .page a
+{
+	padding: 5px;
+	border: none;
+	color: #000;
+	font-weight: normal;
+	font-size: 15px;
+	background: none;
+	border: 1px solid #f3f3f3;
+}
+
+ul.yiiPager .page.selected a,
+ul.yiiPager .previous:hover a,
+ul.yiiPager .next:hover a,
+ul.yiiPager .page:hover a
+{
+	background: #E6E6E6;
+	border: 1px solid #666;
+}
+
+.filter-form {
+	margin-top: 15px;
 }
 
 #footer

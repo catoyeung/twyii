@@ -6,9 +6,8 @@ $this->pageTitle=Yii::app()->name;
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl.'/js/fullcalendar/fullcalendar.min.css');
-$cs->registerScriptFile($baseUrl.'/js/moment.js');
-$cs->registerScriptFile($baseUrl.'/js/fullcalendar/fullcalendar.min.js');
-
+$cs->registerScriptFile($baseUrl.'/js/moment.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl.'/js/fullcalendar/fullcalendar.min.js', CClientScript::POS_END);
 
 ?>
 	<div class="cpanel">
@@ -33,26 +32,33 @@ $cs->registerScriptFile($baseUrl.'/js/fullcalendar/fullcalendar.min.js');
 	<div id="calendar-workbench" class="clearfix">
 		<div id='calendar'></div>
 	</div>
-	<div id="pop-up-div">
-		<form action="/calendar/create" method="POST">
+	<div id="pop-up-div" style="display: none;">
+		<form action="<?php echo $baseUrl ?>/calendar/createevent" method="POST">
 			<table>
 				<tr>
 					<td class="field-label">標題</td>
 					<td class="field"><input type="text" name="subject"/></td>
 					<td class="field-label">負責人員</td>
 					<td class="field">
-						<select class="chosen">
-							<option>請選擇</option>
-							<option>我</option>
-							<option>心愉軒</option>
-							<option>平和坊</option>
-							<option>越峰成長中心(酒)</option>
-							<option>越峰成長中心(毒)</option>
-							<option>東華三院</option>
+						<select class="chosen" name="assigned_to" data-placeholder="請選擇">
+							<?php
+							if(isset($assigned_to_users)):
+							foreach ($assigned_to_users as $user)
+							{
+								echo '<option value="'.$user->userid.'">'.$user->username.'</option>';
+							}
+							endif
+							?>
 						</select>
 					</td>
 				</tr>
-				<tr class="datepair" data-language="javascript">
+				<tr>
+					<td class="field-label" style="vertical-align: top;">描述</td>
+					<td colspan="3" class="field">
+						<textarea placeholder="描述" class="event-textarea" name="description"></textarea>
+					</td>
+				</tr>
+				<tr>
 					<td class="field-label">開始日期及時間</td>
 					<td class="field"><input type="text" name="start_date" class="datepicker"/>
 						<input class="timepicker" type="text" name="start_time"/></td>
@@ -63,27 +69,12 @@ $cs->registerScriptFile($baseUrl.'/js/fullcalendar/fullcalendar.min.js');
 			</table>
 			<div class="action-bar">
 				<button class="pop-up-div_close btn">關閉</button>
+				<button class="pop-up-div_delete btn btn-red" style="display: none;">刪除</button>
 				<input type="submit" class="btn btn-green" value="創建"/>
 			</div>
 		</form>
 	</div>
 <script>
-/*function getFormattedDate(date) {
-  var year = date.getFullYear();
-  var month = (1 + date.getMonth()).toString();
-  month = month.length > 1 ? month : '0' + month;
-  var day = date.getDate().toString();
-  day = day.length > 1 ? day : '0' + day;
-  return month + '/' + day + '/' + year;
-}
-
-function getFormattedTime(time) {
-	var min = (time.getMinutes()+1).toString();
-	min = min.length > 1 ? min : '0' + min;
-	var hour = (time.getHours() + 1).toString();
-	return hour + ':' + min + ':' + '00';
-}
-*/
 function createDateTime(date, time) {
 	var dateObject = new Date(date);
 	var time_array = time.split(":");
@@ -115,37 +106,93 @@ var end_date = '';
 var start_time = '';
 var end_time = '';
 
+function editEvent(fcEvent)
+{
+	$('.pop-up-div_open').click();
+	// load event model
+	$('#pop-up-div input[name=subject]').val(fcEvent.title);
+	$('#pop-up-div select[name=assigned_to]').val(fcEvent.assigned_to).trigger("chosen:updated");
+	$('#pop-up-div textarea[name=description]').val(fcEvent.description);
+
+	$('#pop-up-div input[name=start_date]').val(fcEvent.start.format('MM/DD/YYYY'));
+	$('#pop-up-div input[name=start_time]').val(fcEvent.start.format('hh:mm'));
+	$('#pop-up-div input[name=end_date]').val(fcEvent.end.format('MM/DD/YYYY'));
+	$('#pop-up-div input[name=end_time]').val(fcEvent.end.format('hh:mm'));
+
+	$('<input>').attr({
+			type: 'hidden',
+			name: 'id',
+			value: fcEvent.id
+	}).appendTo('#pop-up-div form');
+
+	$('#pop-up-div form').attr("action", "<?php echo $baseUrl ?>/calendar/editevent");
+	$('#pop-up-div form .action-bar input[type=submit]').val('修改');
+	$('#pop-up-div form .action-bar .pop-up-div_delete').css('display', 'block');
+	$('#pop-up-div form .action-bar .pop-up-div_delete').click(function (e) {
+		e.preventDefault();
+		var form = document.createElement('form');
+		form.method = 'POST';
+		form.action = "<?php echo $baseUrl ?>/calendar/deleteevent";
+		var input = document.createElement('input');
+		input.name = 'id';
+		input.value = fcEvent.id;
+		form.appendChild(input);
+		document.body.appendChild(form);
+		form.submit();
+	});
+}
+
 $(document).ready(function() {
     $('#calendar').fullCalendar({
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'month,agendaWeek,agendaDay'
+				},
         theme: true,
+				events: <?php
+				if(isset($events)){
+					echo json_encode($events);
+				} else { echo 'new Array()'; }
+				?>,
+				timeFormat: 'LT',
+				eventLimit: true,
+				selectable: true,
+        selectHelper: true,
+        editable: true,
+				eventClick: editEvent
     });
 	$('#pop-up-div').popup({
 		transition: 'all 0.3s',
 		background: true
 	});
 
+	$('.pop-up-div_open').click(function() {
+		$('#pop-up-div input[name=subject]').val('');
+		$('#pop-up-div select[name=assigned_to]').val('').trigger("chosen:updated");
+		$('#pop-up-div textarea[name=description]').val('');
+
+		$('#pop-up-div input[name=start_date]').val('');
+		$('#pop-up-div input[name=start_time]').val('');
+		$('#pop-up-div input[name=end_date]').val('');
+		$('#pop-up-div input[name=end_time]').val('');
+
+		$('#pop-up-div form').attr("action", "<?php echo $baseUrl ?>/calendar/createevent");
+		$('#pop-up-div form .action-bar input[type=submit]').val('創建');
+
+		$('#pop-up-div form .action-bar .pop-up-div_delete').css('display', 'none');
+	});
+
 	/* start of time range picker */
 
 	$('.datepicker[name=start_date]').datepicker({
 		onSelect: function(date) {
-			/*start_date = new Date(date);
-			if (end_date == '') return;
-			end_date = new Date($('.datepicker[name=end_date]').val());
-			if (start_date > end_date) {
-				$('.datepicker[name=start_date]').val(getFormattedDate(end_date));
-			}*/
 			window.start_date = $('.datepicker[name=start_date]').val();
 			checkTimeRange();
 		}
 	});
 	$('.datepicker[name=end_date]').datepicker({
 		onSelect: function(date) {
-			/*end_date = new Date(date);
-			if (start_date == '') return;
-			start_date = new Date($('.datepicker[name=start_date]').val());
-			if (end_date < start_date) {
-				$('.datepicker[name=end_date]').val(getFormattedDate(start_date));
-			}*/
 			window.end_date = $('.datepicker[name=end_date]').val();
 			checkTimeRange();
 		}
@@ -154,47 +201,18 @@ $(document).ready(function() {
 		onSelect: function(time) {
 			window.start_time = time;
 			checkTimeRange();
-			/*if (window.start_date == ''){
-				window.start_date = new Date();
-				$('.datepicker[name=start_date]').val(getFormattedDate(window.start_date));
-			} else {
-				window.start_date = new Date($('.datepicker[name=start_date]').val());
-			}
-			if (window.end_date == '') {
-				return false;
-			}
-			console.log(window.start_date);
-			window.start_time = createDateTime(window.start_date, time);
-			if (window.end_time == '') return;
-
-			window.end_time = createDateTime(window.end_date, $('.datepicker[name=end_time]').val());
-			if (window.start_time > window.end_time) {
-				$('.datepicker[name=start_time]').val('');
-			}*/
 		}
 	});
 	$('.timepicker[name=end_time]').timepicker({
 		onSelect: function(time) {
 			window.end_time = time;
 			checkTimeRange();
-			/*if (window.end_date == ''){
-				window.end_date = new Date();
-				$('.datepicker[name=end_date]').val(getFormattedDate(window.end_date));
-			} else {
-				window.end_date = new Date($('.datepicker[name=end_date]').val());
-			}
-			if (window.start_date == '') {
-				return false;
-			}
-			console.log(window.end_date);
-			window.end_time = createDateTime(window.end_date, time);
-			if (window.start_time == '') return;
-			window.start_time = createDateTime(window.start_date, $('.datepicker[name=start_time]').val());
-			if (window.end_time < window.start_time) {
-				$('.datepicker[name=end_time]').val('');
-			}*/
 		}
 	});
 	/* end of time range picker */
+
+	/* start of loading events to calendar */
+
+	/* end of loading events to calendar */
 });
 </script>

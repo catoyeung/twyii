@@ -1,4 +1,5 @@
 <?php
+/* @var $this SiteController */
 
 $this->pageTitle=Yii::app()->name;
 
@@ -9,13 +10,13 @@ $cs = Yii::app()->getClientScript();
 
 <?php
 $this->renderPartial('//config/cpanel',
-  array('module'=>'user'));
+  array('module'=>'group'));
 
 ?>
 <div class="workbench" class="clearfix">
   <div class="list-view-action-div clearfix">
     <span class="action-span">
-      <a href="<?php echo $baseUrl ?>/user/create"><button class="create-entity-btn btn">新增用戶</button></a>
+      <a href="<?php echo $baseUrl ?>/group/create"><button class="create-entity-btn btn">新增群組</button></a>
     </span>
     <?php
     echo CHtml::beginForm(CHtml::normalizeUrl(array('user/index')), 'get', array('class'=>'filter-form'))
@@ -28,10 +29,8 @@ $this->renderPartial('//config/cpanel',
     <table class="list-view-entries-table">
       <tr>
         <th></th>
-        <th>登入名稱</th>
-        <th>Email</th>
-        <th>有效</th>
-        <th>是否管理員</th>
+        <th>群組名稱</th>
+        <th>組員</th>
         <th>創建時間</th>
         <th>修改時間</th>
         <th></th>
@@ -41,8 +40,7 @@ $this->renderPartial('//config/cpanel',
         'dataProvider'=>$dataProvider,
         'itemView'=>'_view',
         'sortableAttributes'=>array(
-          'username'=>'登入名稱',
-          'useremail'=>'Email',
+          'groupname'=>'群組名稱',
           'created_at'=>'創建時間',
         ),
         'enablePagination'=>true,
@@ -52,8 +50,8 @@ $this->renderPartial('//config/cpanel',
         ),
         'summaryText'=>"由{start}到{end} 總數:{count}",
         'template'=>"{summary} {sorter} {pager} {items}",
-        'emptyText'=>'沒有找到資料',
         'sorterHeader'=>'排序按:',
+        'emptyText'=>'沒有找到資料',
         'id'=>'ajaxListView'
       )); ?>
 
