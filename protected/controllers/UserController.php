@@ -6,10 +6,14 @@ class UserController extends Controller
   {
     $search_text = isset($_GET['search_text']) ? $_GET['search_text'] : '';
     $criteria = new CDbCriteria();
+    // filter deleted records
+    $criteria->compare( 'deleted', 0, false, 'AND' );
     if(strlen($search_text) > 0)
     {
-      $criteria->addSearchCondition( 'username', $search_text, true, 'OR' );
-      $criteria->addSearchCondition( 'useremail', $search_text, true, 'OR' );
+      $criteria2 = new CDbCriteria();
+      $criteria2->addSearchCondition( 'username', $search_text, true, 'OR' );
+      $criteria2->addSearchCondition( 'useremail', $search_text, true, 'OR' );
+      $criteria->mergeWith($criteria2, 'AND');
     }
 
 
@@ -54,14 +58,42 @@ class UserController extends Controller
     }
   }
 
-  public function actionError()
+  public function actionUpdate($id)
   {
-    if($error=Yii::app()->errorHandler->error)
+    if ($_SERVER['REQUEST_METHOD'] == 'GET')
     {
-      if(Yii::app()->request->isAjaxRequest)
-        echo $error['message'];
-      else
-        $this->render('error', $error);
+      $model = UserModel::model()->findByPk($id);
+      $this->render('update',array(
+        'model'=>$model,
+      ));
+    } else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+    {
+      $model = UserModel::model()->findByPk($id);
+      $model->setAttributes($_POST['UserModel']);
+			if($model->validate()){
+				$model->save();
+				$this->redirect(array('index'));
+			} else {
+				$popup_message = array(
+					'type'=>'error',
+					'message'=>$model->getErrors()
+				);
+				$this->popup_message = $popup_message;
+				$this->render('index');
+			}
     }
   }
+
+  public function actionDelete()
+	{
+		if ($_SERVER['REQUEST_METHOD'] == 'POST')
+		{
+			$model = UserModel::model()->findByPk($_POST['id']);
+			if($model->delete()){
+				$this->redirect(array('index'));
+			} else {
+				$this->render('//site/error', $model->getErrors());
+			}
+		}
+	}
 }

@@ -29,8 +29,9 @@ $this->renderPartial('//config/cpanel',
     <table class="list-view-entries-table">
       <tr>
         <th></th>
+        <th>群組編號</th>
         <th>群組名稱</th>
-        <th>組員</th>
+        <th>有效</th>
         <th>創建時間</th>
         <th>修改時間</th>
         <th></th>

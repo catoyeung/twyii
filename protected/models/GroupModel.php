@@ -1,12 +1,14 @@
 <?php
 
-class GroupModel extends CActiveRecord
+class GroupModel extends ExtendedAssignedTo
 {
 	public $groupid;
 	public $groupname;
 	public $active;
 	public $created_at;
 	public $modified_at;
+
+	const CLASSIFICATION = 'group';
 
 	public static function model($className=__CLASS__)
   {
@@ -21,7 +23,7 @@ class GroupModel extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('groupid', 'required'),
+			array('groupid', 'safe'),
       array('groupname', 'required'),
       array('groupname', 'length', 'min'=>3, 'max'=>128),
       array('active', 'required'),
@@ -36,7 +38,15 @@ class GroupModel extends CActiveRecord
   public function relations()
   {
     return array(
-        'members'=>array(self::MANY_MANY, 'UserModel', 'tbl_group2user(groupid, userid)')
+        'members'=>array(self::MANY_MANY, 'UserModel', 'tbl_group2user(groupid, userid)'),
+				'assigned_to'=>array(self::BELONGS_TO, 'AssignedTo', 'assigned_to_id')
     );
+  }
+
+	public function delete()
+  {
+    $this->setAttribute('deleted', 1);
+    $result = $this->save();
+    return $result;
   }
 }

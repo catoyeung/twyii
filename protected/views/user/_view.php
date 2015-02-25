@@ -13,6 +13,5 @@ $baseUrl = Yii::app()->request->baseUrl;
   <td><?php echo CHtml::encode($data->modified_at); ?></td>
   <td>
     <button onclick="location.href='<?php echo $baseUrl; ?>/user/update/<?php echo $data->userid; ?>'" class="btn">編輯</button>
-    <button class="btn">刪除</button>
   </td>
 </tr>

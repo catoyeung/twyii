@@ -19,4 +19,12 @@ class ExtendedEntity extends CActiveRecord
     $this->entityid = $entity->entityid;
     return $result;
   }
+
+  public function delete()
+  {
+    $entity = Entity::model()->findByPk($this->entityid);
+    $entity->setAttribute('deleted', true);
+    $result = $entity->save();
+    return $result;
+  }
 }

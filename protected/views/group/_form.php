@@ -10,12 +10,12 @@ $cs = Yii::app()->getClientScript();
 
 <?php
 $this->renderPartial('//config/cpanel',
-  array('module'=>'user'));
+  array('module'=>'group'));
 ?>
 <div class="workbench" class="clearfix">
   <div class="entity-div">
     <?php $form=$this->beginWidget('CActiveForm', array(
-      'id'=>'user-form',
+      'id'=>'group-form',
       'enableAjaxValidation'=>false,
     )); ?>
     <?php echo CHtml::errorSummary($model); ?>
@@ -42,14 +42,14 @@ $this->renderPartial('//config/cpanel',
           <?php echo $form->checkBox($model,'active'); ?>
         </td>
       </tr>
-      <tr>
-        <td>
-          <?php echo CHtml::submitButton($model->isNewRecord ? '創建' : '修改', array('class'=>'btn')); ?>
-          <!--<input type="submit" class="btn btn-green" value="創建" />-->
-          <button type="button" class="btn" onclick="location.href='<?php echo $baseUrl; ?>/user/index'">取消</button>
-        </td>
-      </tr>
     </table>
+    <div class="model-update-actionbar">
+      <?php echo CHtml::submitButton($model->isNewRecord ? '創建' : '修改', array('class'=>'btn')); ?>
+      <?php if(!$model->isNewRecord) { ?>
+        <button type="button" class="btn btn-red delete-btn" data-id="<?php echo $model->groupid; ?>">刪除</button>
+      <?php } ?>
+      <button type="button" class="btn" onclick="location.href='<?php echo $baseUrl; ?>/user/index'">取消</button>
+    </div>
     <?php $this->endWidget(); ?>
     <!--</form>-->
   </div>

@@ -1,6 +1,6 @@
 <?php
 
-class UserModel extends CActiveRecord
+class UserModel extends ExtendedAssignedTo
 {
 	public $userid;
 	public $username;
@@ -19,6 +19,8 @@ class UserModel extends CActiveRecord
 	const ERROR_USERNAME_INVALID = 1;
 	const ERROR_PASSWORD_INVALID = 2;
 	const ERROR_NONE = 0;
+
+	const CLASSIFICATION = 'user';
 
 	public static function model($className=__CLASS__)
   {
@@ -67,7 +69,15 @@ class UserModel extends CActiveRecord
 	public function relations()
   {
     return array(
-        'groups'=>array(self::MANY_MANY, 'Group', 'tbl_group2user(userid, groupid)')
+        'groups'=>array(self::MANY_MANY, 'Group', 'tbl_group2user(userid, groupid)'),
+				'assigned_to'=>array(self::BELONGS_TO, 'AssignedTo', 'assigned_to_id')
     );
+  }
+
+	public function delete()
+  {
+    $this->setAttribute('deleted', true);
+    $result = $this->save();
+    return $result;
   }
 }

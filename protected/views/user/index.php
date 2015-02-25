@@ -43,6 +43,7 @@ $this->renderPartial('//config/cpanel',
         'sortableAttributes'=>array(
           'username'=>'登入名稱',
           'useremail'=>'Email',
+          'active'=>'有效',
           'created_at'=>'創建時間',
         ),
         'enablePagination'=>true,

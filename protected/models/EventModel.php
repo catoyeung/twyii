@@ -59,12 +59,4 @@ class EventModel extends ExtendedEntity
 
     return $events_in_calendar_format;
   }
-
-  public function delete()
-  {
-    $entity = Entity::model()->findByPk($this->entityid);
-    $entity->setAttribute('deleted', true);
-    $result = $entity->save();
-    return $result;
-  }
 }

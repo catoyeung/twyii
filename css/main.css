@@ -542,6 +542,15 @@ ul.yiiPager .page:hover a
 	margin-top: 15px;
 }
 
+.model-update-actionbar {
+	margin-top: 10px;
+}
+
+#group-form td {
+	vertical-align: top;
+	border: 1px solid #aaa;
+}
+
 #footer
 {
 	width: 100%;
