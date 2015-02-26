@@ -27,6 +27,7 @@ class GroupModel extends ExtendedAssignedTo
       array('groupname', 'required'),
       array('groupname', 'length', 'min'=>3, 'max'=>128),
       array('active', 'required'),
+			array('deleted', 'default', 'value'=>0),
 			array('created_at,modified_at','default',
 					'value'=>new CDbExpression('NOW()'),
 					'setOnEmpty'=>false,'on'=>'insert'),

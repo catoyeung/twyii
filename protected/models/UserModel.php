@@ -69,6 +69,7 @@ class UserModel extends ExtendedAssignedTo
 	public function relations()
   {
     return array(
+			'organisation'=>array(self::BELONGS_TO, 'OrganisationModel', 'organisation_id'),
         'groups'=>array(self::MANY_MANY, 'Group', 'tbl_group2user(userid, groupid)'),
 				'assigned_to'=>array(self::BELONGS_TO, 'AssignedTo', 'assigned_to_id')
     );

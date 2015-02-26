@@ -6,6 +6,9 @@ class RoleModel extends CActiveRecord
   public $rolename;
   public $parent_id;
   public $children;
+  public $deleted;
+  public $created_at;
+  public $modified_at;
 
   public static function model($className=__CLASS__)
   {
@@ -21,7 +24,14 @@ class RoleModel extends CActiveRecord
   {
     return array(
           array('rolename','length','max'=>20),
-          array('rolename, parent_id', 'required')
+          array('rolename', 'required'),
+          array('deleted', 'default'),
+          array('created_at, modified_at','default',
+    					'value'=>new CDbExpression('NOW()'),
+    					'setOnEmpty'=>false,'on'=>'insert'),
+    			array('modified_at','default',
+    							'value'=>new CDbExpression('NOW()'),
+    							'setOnEmpty'=>false,'on'=>'update')
     );
   }
 
@@ -50,68 +60,6 @@ class RoleModel extends CActiveRecord
       $new_roles[$role->getAttribute('parent_id')][] = $role;
     }
     $roles_in_tree = $this->createTree($new_roles, $new_roles[0]);
-
-
-    //print_r($roles_in_tree);
-    /*for($i=0;$i<count($roles);$i++)
-    {
-      if($roles[$i]->getAttribute('parent_id') == 0) {
-        $role_info = array();
-        $role_info['self_instance'] = $roles[$i];
-        $role_info['children'] = array();
-        // add to heirarchy
-        $roles_in_hierarchy[] = $role_info;
-        // remove from list
-        unset($roles[$i]);
-      }
-    }
-    $roles = array_values($roles);
-    $deleted_role_indexs = array();
-    for($i=0;$i<count($roles);$i++)
-    {
-      for($j=0;$j<count($roles_in_hierarchy);$j++) {
-        $parent = $roles_in_hierarchy[$j]['self_instance'];
-        if($roles[$i]->getAttribute('parent_id') == $parent->getAttribute('roleid')) {
-          $role_info = array();
-          $role_info['self_instance'] = $roles[$i];
-          $role_info['children'] = array();
-          // add to heirarchy
-          $roles_in_hierarchy[$j]['children'][] = $role_info;
-          // remove from list
-          $deleted_role_indexs[] = $i;
-          //unset($roles[$i]);
-        }
-      }
-    }
-    foreach($deleted_role_indexs as $i)
-    {
-      unset($roles[$i]);
-    }
-    $roles = array_values($roles);
-
-    for($i=0;$i<count($roles);$i++)
-    {
-      for($j=0;$j<count($roles_in_hierarchy);$j++) {
-        for($k=0;$k<count($roles_in_hierarchy[$j]['children']);$k++) {
-          $parent = $roles_in_hierarchy[$j]['children'][$k]['self_instance'];
-          if($roles[$i]->getAttribute('parent_id') == $parent->getAttribute('roleid')) {
-            $role_info = array();
-            $role_info['self_instance'] = $roles[$i];
-            $role_info['children'] = array();
-            // add to heirarchy
-            $roles_in_hierarchy[$j]['children'][$k]['children'][] = $role_info;
-            // remove from list
-            $deleted_role_indexs[] = $i;
-            //unset($roles[$i]);
-          }
-        }
-      }
-    }
-    foreach($deleted_role_indexs as $i)
-    {
-      unset($roles[$i]);
-    }
-    $roles = array_values($roles);*/
 
     return $roles_in_tree;
   }

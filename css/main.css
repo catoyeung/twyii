@@ -551,6 +551,133 @@ ul.yiiPager .page:hover a
 	border: 1px solid #aaa;
 }
 
+.profile-field-level-control table.module-table {
+	width: 800px;
+	border: 1px solid #999;
+	box-sizing: border-box;
+}
+
+.profile-field-level-control table.module-table th{
+	text-align: left;
+	padding: 10px;
+}
+
+.profile-field-level-control table.module-table td {
+	width: 20%;
+	background: #fff;
+	border: 1px solid #999;
+}
+
+.profile-field-level-control table.module-table button.toggle {
+	background-color: #E6E6E6;
+	border: 1px solid #ccc;
+	width: 50px;
+	height: 24px;
+}
+
+.profile-field-level-control table.permission-table
+{
+	width: 100%;
+}
+
+button.toggle .icon-down
+{
+	display: inline-block;
+	background-position: -313px -119px;
+	background-image: url("../images/icons.png");
+	width: 14px;
+	height: 14px;
+	line-height: 14px;
+	vertical-align: text-top;
+}
+
+button.toggle .icon-up
+{
+	display: inline-block;
+	background-position: -288px -120px;
+	background-image: url("../images/icons.png");
+	width: 14px;
+	height: 14px;
+	line-height: 14px;
+	vertical-align: text-top;
+}
+
+.profile-field-level-control table.module-table .module-tr > td
+{
+	/*background: #51A351;*/
+}
+
+.permission-table
+{
+	border-top: 1px solid #999;
+	border-left: 1px solid #999;
+}
+
+.permission-table li
+{
+	width: 50%;
+	float: left;
+	padding: 10px;
+	box-sizing: border-box;
+	border-right: 1px solid #999;
+	border-bottom: 1px solid #999;
+}
+
+.permission-table .field-label
+{
+	width: 50%;
+	float: left;
+}
+
+.permission-table .field-slider
+{
+	width: 25%;
+	float: left;
+}
+
+.permission-table .slider-value
+{
+	width: 25%;
+	float: left;
+	text-align: center;
+}
+
+.entity-table
+{
+	width: 960px;
+	border-left: 1px solid #999;
+	border-top: 1px solid #999;
+}
+
+.entity-table > ul > li
+{
+	width: 480px;
+
+	box-sizing: border-box;
+	float: left;
+	border-right: 1px solid #999;
+	border-bottom: 1px solid #999;
+}
+
+.entity-table .entity-label
+{
+	float: left;
+	width: 240px;
+	box-sizing: border-box;
+	vertical-align: middle;
+	line-height: 25px;
+	border-right: 1px solid #999;
+	padding: 5px;
+}
+
+.entity-table .entity-field
+{
+	float: left;
+	width: 100px;
+	box-sizing: border-box;
+	padding: 5px;
+}
+
 #footer
 {
 	width: 100%;

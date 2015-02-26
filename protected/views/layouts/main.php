@@ -1,10 +1,12 @@
 <?php
 $loggedInUserName = '';
+$organisation_name = '';
 if(!Yii::app()->user->isGuest)
 {
 	$logged_in_userid = Yii::app()->user->getId();
 	$logged_in_user = UserModel::model()->findByPk($logged_in_userid);
 	$loggedInUserName = '('.$logged_in_user->getAttribute('username').')';
+	$organisation_name = Yii::app()->user->getOrganisation()->name;
 }
 ?>
 <!DOCTYPE html>
@@ -47,9 +49,16 @@ if(!Yii::app()->user->isGuest)
 				'items'=>array(
 					array('label'=>'首頁', 'url'=>array('/site/index')),
 					array('label'=>'日曆', 'url'=>array('/calendar/index')),
-					array('label'=>'查詢', 'url'=>array('/query/index')),
+					array('label'=>'心愉軒查詢', 'url'=>array('/icaptinquiry/index'), 'visible'=>$organisation_name=='icapt'),
+					array('label'=>'平和坊查詢', 'url'=>array('/eveninquiry/index'), 'visible'=>$organisation_name=='even'),
+					array('label'=>'越峰(酒)查詢', 'url'=>array('/crossalcohol_inquiry/index'), 'visible'=>$organisation_name=='cross_alcohol'),
+					array('label'=>'越峰(毒)查詢', 'url'=>array('/crossdrug_inquiry/index'), 'visible'=>$organisation_name=='cross_drug'),
+					array('label'=>'家庭', 'url'=>array('/family/index')),
 					array('label'=>'聯絡人', 'url'=>array('/contact/index')),
-					array('label'=>'個案', 'url'=>array('/case/index')),
+					array('label'=>'心愉軒個案', 'url'=>array('/icaptcase/index'), 'visible'=>$organisation_name=='icapt'),
+					array('label'=>'平和坊個案', 'url'=>array('/evencase/index'), 'visible'=>$organisation_name=='even'),
+					array('label'=>'越峰(酒)個案', 'url'=>array('/crossalcohol_case/index'), 'visible'=>$organisation_name=='cross_alcohol'),
+					array('label'=>'越峰(毒)個案', 'url'=>array('/crossdrug_case/index'), 'visible'=>$organisation_name=='cross_drug'),
 					array('label'=>'回收筒', 'url'=>array('/recyclebin/index')),
 					array('label'=>'設定', 'url'=>array('/config/index')),
 					array('label'=>'登出'.$loggedInUserName, 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)

@@ -37,7 +37,10 @@ class Entity extends CActiveRecord
 
   public function relations()
   {
-    return array('event'=>array(self::HAS_ONE, 'EventModel', 'entityid'));
+    return array(
+      'event'=>array(self::HAS_ONE, 'EventModel', 'entityid'),
+      'eveninquiry'=>array(self::HAS_ONE, 'EvenInquiryModel', 'entityid')
+    );
   }
 
   public static function model($className=__CLASS__) {

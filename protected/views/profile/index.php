@@ -8,91 +8,53 @@ $cs = Yii::app()->getClientScript();
 
 ?>
 
-<?php echo $cpanel ?>
+<?php
+$this->renderPartial('//config/cpanel',
+  array('module'=>'profile'));
+
+?>
 <div class="workbench" class="clearfix">
   <div class="list-view-action-div clearfix">
-    <span class="action-span">
-      <a href="<?php echo $baseUrl ?>/user/create"><button class="create-entity-btn btn">新增用戶</button></a>
-    </span>
-    <span class="filter-span">
-      <select class="chosen filter-select">
-        <option>所有查詢</option>
-        <option>心愉軒查詢</option>
-        <option>平和坊查詢</option>
-        <option>越峰成長中心查詢</option>
-      </select>
-    </span>
-    <span class="pagination-span">
-      <button class="prev-page-btn btn">
-        <span class="prev-page-span">Prev.</span>
-      </button>
-      <button class="page-jump-btn btn">
-        <span class="page-jump-span">Go to</span>
-      </button>
-      <button class="next-page-btn btn">
-        <span class="next-page-span">Next.</span>
-      </button>
-    </span>
+    <!--<span class="action-span">
+      <a href="<?php echo $baseUrl ?>/profile/create"><button class="create-entity-btn btn">新增</button></a>
+    </span>-->
+    <?php
+    echo CHtml::beginForm(CHtml::normalizeUrl(array('profile/index')), 'get', array('class'=>'filter-form'))
+    . CHtml::textField('search_text', (isset($_GET['search_text'])) ? $_GET['search_text'] : '', array('id'=>'search_text'))
+    . CHtml::submitButton('搜尋', array('name'=>'', 'class'=>"btn"))
+    . CHtml::endForm();
+    ?>
   </div>
   <div class="list-view-entries-div">
     <table class="list-view-entries-table">
       <tr>
         <th></th>
-        <th>查詢者姓名</th>
-        <th>電話</th>
-        <th>負責人員</th>
+        <th>身份編號</th>
+        <th>身份</th>
         <th>創建時間</th>
         <th>修改時間</th>
+        <th></th>
       </tr>
-      <tr class="list-view-search-tr">
-        <td></td>
-        <td><input type="text" placeholder="例如:楊沛昆"/></td>
-        <td><input type="text" placeholder="例如:96330385"/></td>
-        <td><input type="text" placeholder="例如:Joseph Tung"/></td>
-        <td><input type="text" placeholder="例如:2014-05-16, 2014-05-17"/></td>
-        <td><input type="text" placeholder="例如:2014-05-16, 2014-05-17"/></td>
-        <td><button class="btn textbtn">搜尋</button></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox"></td>
-        <td>楊沛昆</td>
-        <td>96330385</td>
-        <td>Joseph Tung</td>
-        <td>2014-05-16 2:00:00 PM</td>
-        <td>2014-05-16 2:00:00 PM</td>
-      </tr>
-      <tr>
-        <td><input type="checkbox"></td>
-        <td>楊沛昆</td>
-        <td>96330385</td>
-        <td>Joseph Tung</td>
-        <td>2014-05-16 2:00:00 PM</td>
-        <td>2014-05-16 2:00:00 PM</td>
-      </tr>
-      <tr>
-        <td><input type="checkbox"></td>
-        <td>楊沛昆</td>
-        <td>96330385</td>
-        <td>Joseph Tung</td>
-        <td>2014-05-16 2:00:00 PM</td>
-        <td>2014-05-16 2:00:00 PM</td>
-      </tr>
-      <tr>
-        <td><input type="checkbox"></td>
-        <td>楊沛昆</td>
-        <td>96330385</td>
-        <td>Joseph Tung</td>
-        <td>2014-05-16 2:00:00 PM</td>
-        <td>2014-05-16 2:00:00 PM</td>
-      </tr>
-      <tr>
-        <td><input type="checkbox"></td>
-        <td>楊沛昆</td>
-        <td>96330385</td>
-        <td>Joseph Tung</td>
-        <td>2014-05-16 2:00:00 PM</td>
-        <td>2014-05-16 2:00:00 PM</td>
-      </tr>
+      <?php
+      $this->widget('zii.widgets.CListView', array(
+        'dataProvider'=>$dataProvider,
+        'itemView'=>'_view',
+        'sortableAttributes'=>array(
+          'rolename'=>'身份',
+          'created_at'=>'創建時間',
+        ),
+        'enablePagination'=>true,
+        'pager'=>array(
+          'maxButtonCount'=>10,
+          'header'=>'頁面:'
+        ),
+        'summaryText'=>"由{start}到{end} 總數:{count}",
+        'template'=>"{summary} {sorter} {pager} {items}",
+        'sorterHeader'=>'排序按:',
+        'emptyText'=>'沒有找到資料',
+        'id'=>'ajaxListView'
+      )); ?>
+
     </table>
   </div>
 </div>
