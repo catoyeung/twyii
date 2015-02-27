@@ -4,7 +4,7 @@ class CalendarController extends Controller
 {
 	public function actionIndex()
 	{
-		$assigned_to_users = UserModel::model()->findAll();
+		$assigned_to_users = AssignedToModel::model()->findAll();
 		$events = EventModel::model()->getEventsInCalendarFormat();
 		$this->render('index',
 			array(

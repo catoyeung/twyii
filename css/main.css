@@ -293,6 +293,8 @@ button, input[type=submit] {
 .list-view-entries-table th
 {
 	text-align: left;
+	color: #444;
+	font-weight: bold;
 }
 
 .list-view-entries-table .list-view-search-tr
@@ -458,6 +460,13 @@ button, input[type=submit] {
 	background: #f3f3f3;
 	padding: 10px;
 	min-height: 600px;
+}
+
+.entity-div h1
+{
+	margin-bottom: 20px;
+	font-size: 24px;
+	font-weight: bold;
 }
 
 .entity-div td
@@ -645,18 +654,30 @@ button.toggle .icon-up
 .entity-table
 {
 	width: 960px;
-	border-left: 1px solid #999;
-	border-top: 1px solid #999;
+	color: #666;
+}
+
+.entity-table .section-title
+{
+	padding: 5px;
+	width: 960px;
+	box-sizing: border-box;
+	border: 1px solid #ddd;
+}
+
+.entity-table ul
+{
+	margin-bottom: 20px;
+	border-left: 1px solid #ddd;
 }
 
 .entity-table > ul > li
 {
-	width: 480px;
-
+	width: 479px;
 	box-sizing: border-box;
 	float: left;
-	border-right: 1px solid #999;
-	border-bottom: 1px solid #999;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 }
 
 .entity-table .entity-label
@@ -665,17 +686,24 @@ button.toggle .icon-up
 	width: 240px;
 	box-sizing: border-box;
 	vertical-align: middle;
-	line-height: 25px;
-	border-right: 1px solid #999;
+	line-height: 28px;
 	padding: 5px;
+	background: #F7F7F9;
 }
 
 .entity-table .entity-field
 {
 	float: left;
-	width: 100px;
+	width: 238px;
 	box-sizing: border-box;
 	padding: 5px;
+	height: 38px;
+	background: #fff;
+}
+
+.entity-div .chosen-disabled
+{
+	opacity: 1 !important;
 }
 
 #footer

@@ -41,6 +41,7 @@ class EvenInquiryController extends Controller
       ));
     } else if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
+
       if(isset($_POST['EvenInquiryModel']))
       {
         $model = new EvenInquiryModel();
@@ -51,9 +52,22 @@ class EvenInquiryController extends Controller
           ));
           return;
         }
-        if($model->register())
-          $this->redirect(array('index'));
+        if($model->save())
+          $this->redirect(array('detail/'.$model->entityid));
+        else
+          print_r($model->getErrors());
       }
+    }
+  }
+
+  public function actionDetail($id)
+  {
+    if ($_SERVER['REQUEST_METHOD'] == 'GET')
+    {
+      $model = EvenInquiryModel::model()->findByPk($id);
+      $this->render('detail',array(
+        'model'=>$model,
+      ));
     }
   }
 }

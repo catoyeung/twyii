@@ -1,12 +1,14 @@
 <?php
 
-class GroupModel extends ExtendedAssignedTo
+class GroupModel extends CActiveRecord
 {
 	public $groupid;
 	public $groupname;
+	public $label;
 	public $active;
 	public $created_at;
 	public $modified_at;
+
 
 	const CLASSIFICATION = 'group';
 
@@ -39,8 +41,7 @@ class GroupModel extends ExtendedAssignedTo
   public function relations()
   {
     return array(
-        'members'=>array(self::MANY_MANY, 'UserModel', 'tbl_group2user(groupid, userid)'),
-				'assigned_to'=>array(self::BELONGS_TO, 'AssignedTo', 'assigned_to_id')
+        'users'=>array(self::MANY_MANY, 'UserModel', 'tbl_group2user(groupid, userid)')
     );
   }
 

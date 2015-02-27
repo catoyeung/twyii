@@ -40,16 +40,10 @@ $cs->registerScriptFile($baseUrl.'/js/fullcalendar/fullcalendar.min.js', CClient
 					<td class="field"><input type="text" name="subject"/></td>
 					<td class="field-label">負責人員</td>
 					<td class="field">
-						<select class="chosen" name="assigned_to" data-placeholder="請選擇">
-							<?php
-							if(isset($assigned_to_users)):
-							foreach ($assigned_to_users as $user)
-							{
-								echo '<option value="'.$user->userid.'">'.$user->username.'</option>';
-							}
-							endif
-							?>
-						</select>
+						<?php
+						$assigned_to_list = CHtml::listData($assigned_to_users,'assigned_to_id', 'display_name', 'group');
+						echo CHtml::dropDownList('assigned_to', 0, $assigned_to_list, array('class'=>'chosen'));
+						?>
 					</td>
 				</tr>
 				<tr>

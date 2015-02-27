@@ -23,5 +23,11 @@ class Group2UserModel extends CActiveRecord
 		);
 	}
 
-  
+	public function relations()
+  {
+    return array(
+			'group'=>array(self::HAS_ONE, 'GroupModel', 'groupid'),
+      'user'=>array(self::HAS_ONE, 'UserModel', 'userid')
+    );
+  }
 }

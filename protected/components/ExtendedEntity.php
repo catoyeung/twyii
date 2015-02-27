@@ -13,8 +13,10 @@ class ExtendedEntity extends CActiveRecord
     } else {
       $entity = Entity::model()->findByPk($this->entityid);
     }
+
     $entity->setAttributes($this->getAttributes());
     $entity->setAttribute('assigned_to', $this->assigned_to);
+    $entity->setAttribute('created_by', Yii::app()->user->getId());
     $result = $entity->save();
     $this->entityid = $entity->entityid;
     return $result;

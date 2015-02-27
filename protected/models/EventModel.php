@@ -42,7 +42,10 @@ class EventModel extends ExtendedEntity
 
   public function getEventsInCalendarFormat()
   {
-    $events = EventModel::model()->with('entity')->findAll('assigned_to='.Yii::app()->user->getId());
+    $events = EventModel::model()->with('entity')->findAll('assigned_to='.Yii::app()->user->getId().' AND deleted=FALSE');
+    /*$events = EventModel::model()->with('entity')->findAllByAttributes(
+    array('entity.assigned_to'=>Yii::app()->user->getId(),
+      'deleted'=>false));*/
     $events_in_calendar_format = array();
     foreach ($events as $event){
       array_push($events_in_calendar_format,

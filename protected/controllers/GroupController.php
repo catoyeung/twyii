@@ -11,7 +11,7 @@ class GroupController extends Controller
     if(strlen($search_text) > 0)
     {
       $criteria2 = new CDbCriteria();
-      $criteria2->addSearchCondition( 'groupname', $search_text, true, 'OR' );
+      $criteria2->addSearchCondition( 'label', $search_text, true, 'OR' );
       $criteria->mergeWith($criteria2, 'AND');
     }
 

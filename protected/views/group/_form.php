@@ -21,9 +21,15 @@ $this->renderPartial('//config/cpanel',
     <?php echo CHtml::errorSummary($model); ?>
     <table>
       <tr>
-        <td>群組名稱</td>
+        <td>群組名稱(系統用)</td>
         <td>
           <?php echo $form->textField($model,'groupname'); ?>
+        </td>
+      </tr>
+      <tr>
+        <td>群組名稱</td>
+        <td>
+          <?php echo $form->textField($model,'label'); ?>
         </td>
       </tr>
       <tr>

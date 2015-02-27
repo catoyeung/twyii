@@ -1,6 +1,6 @@
 <?php
 
-class UserModel extends ExtendedAssignedTo
+class UserModel extends CActiveRecord
 {
 	public $userid;
 	public $username;
@@ -15,6 +15,7 @@ class UserModel extends ExtendedAssignedTo
 	public $initial_password;
 	public $register_password;
 	public $confirm_register_password;
+
 
 	const ERROR_USERNAME_INVALID = 1;
 	const ERROR_PASSWORD_INVALID = 2;
@@ -69,9 +70,7 @@ class UserModel extends ExtendedAssignedTo
 	public function relations()
   {
     return array(
-			'organisation'=>array(self::BELONGS_TO, 'OrganisationModel', 'organisation_id'),
-        'groups'=>array(self::MANY_MANY, 'Group', 'tbl_group2user(userid, groupid)'),
-				'assigned_to'=>array(self::BELONGS_TO, 'AssignedTo', 'assigned_to_id')
+      'groups'=>array(self::MANY_MANY, 'GroupModel', 'tbl_group2user(userid, groupid)')
     );
   }
 

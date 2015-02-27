@@ -30,6 +30,7 @@ $this->renderPartial('//config/cpanel',
       <tr>
         <th></th>
         <th>群組編號</th>
+        <th>群組名稱(系統用)</th>
         <th>群組名稱</th>
         <th>有效</th>
         <th>創建時間</th>
