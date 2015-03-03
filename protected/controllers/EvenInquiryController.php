@@ -12,7 +12,10 @@ class EvenInquiryController extends Controller
     if(strlen($search_text) > 0)
     {
       $criteria2 = new CDbCriteria();
-      //$criteria2->addSearchCondition( 'rolename', $search_text, true, 'OR' );
+      $criteria2->addSearchCondition( 'inquirer_name', $search_text, true, 'OR' );
+      $criteria2->addSearchCondition( 'inquirer_phone', $search_text, true, 'OR' );
+      $criteria2->addSearchCondition( 'gambler_name', $search_text, true, 'OR' );
+      $criteria2->addSearchCondition( 'gambler_phone', $search_text, true, 'OR' );
       $criteria->mergeWith($criteria2, 'AND');
     }
 
@@ -54,8 +57,6 @@ class EvenInquiryController extends Controller
         }
         if($model->save())
           $this->redirect(array('detail/'.$model->entityid));
-        else
-          print_r($model->getErrors());
       }
     }
   }
@@ -68,6 +69,32 @@ class EvenInquiryController extends Controller
       $this->render('detail',array(
         'model'=>$model,
       ));
+    }
+  }
+
+  public function actionUpdate($id)
+  {
+    if ($_SERVER['REQUEST_METHOD'] == 'GET')
+    {
+      $model = EvenInquiryModel::model()->findByPk($id);
+      $this->render('update',array(
+        'model'=>$model,
+      ));
+    } else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+    {
+      if(isset($_POST['EvenInquiryModel']))
+      {
+        $model = EvenInquiryModel::model()->findByPk($id);
+        $model->attributes = $_POST['EvenInquiryModel'];
+        if (!$model->validate()) {
+          $this->render('update',array(
+            'model'=>$model
+          ));
+          return;
+        }
+        if($model->save())
+          $this->redirect(array('eveninquiry/detail/'.$model->entityid));
+      }
     }
   }
 }

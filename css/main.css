@@ -477,12 +477,12 @@ button, input[type=submit] {
 .entity-div input[type=text],
 .entity-div input[type=password]
 {
-	width: 150px;
+	width: 220px;
 }
 
 .entity-div select
 {
-	width: 150px;
+	width: 220px;
 }
 
 .organ-hierarchy
@@ -704,6 +704,11 @@ button.toggle .icon-up
 .entity-div .chosen-disabled
 {
 	opacity: 1 !important;
+}
+
+.xdsoft_datetimepicker
+{
+	z-index: 1000002 !important;
 }
 
 #footer

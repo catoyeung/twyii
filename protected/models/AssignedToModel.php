@@ -2,7 +2,7 @@
 
 class AssignedToModel
 {
-  public $assigned_to_id;
+  public $assigned_to;
   public $display_name;
   public $group;
 
@@ -19,19 +19,19 @@ class AssignedToModel
     // Merge user & groups
     foreach ($users as $user)
     {
-      $assigned_to = new AssignedToModel();
-      $assigned_to->assigned_to_id = $user->userid;
-      $assigned_to->display_name = $user->display_name;
-      $assigned_to->group = '使用者';
-      $return[] = $assigned_to;
+      $model = new AssignedToModel();
+      $model->assigned_to = $user->userid;
+      $model->display_name = $user->display_name;
+      $model->group = '使用者';
+      $return[] = $model;
     }
     foreach ($groups as $group)
     {
-      $assigned_to = new AssignedToModel();
-      $assigned_to->assigned_to_id = $group->groupid;
-      $assigned_to->display_name = $group->label;
-      $assigned_to->group = '群組';
-      $return[] = $assigned_to;
+      $model = new AssignedToModel();
+      $model->assigned_to = $group->groupid;
+      $model->display_name = $group->label;
+      $model->group = '群組';
+      $return[] = $model;
     }
     return $return;
   }

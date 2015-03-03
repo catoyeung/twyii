@@ -12,7 +12,7 @@ $cs = Yii::app()->getClientScript();
       <a href="<?php echo $baseUrl ?>/eveninquiry/create"><button class="create-entity-btn btn">新增平和坊查詢</button></a>
     </span>
     <?php
-    echo CHtml::beginForm(CHtml::normalizeUrl(array('user/index')), 'get', array('class'=>'filter-form'))
+    echo CHtml::beginForm(CHtml::normalizeUrl(array('eveninquiry/index')), 'get', array('class'=>'filter-form'))
     . CHtml::textField('search_text', (isset($_GET['search_text'])) ? $_GET['search_text'] : '', array('id'=>'search_text'))
     . CHtml::submitButton('搜尋', array('name'=>'', 'class'=>"btn"))
     . CHtml::endForm();
@@ -37,10 +37,10 @@ $cs = Yii::app()->getClientScript();
         'dataProvider'=>$dataProvider,
         'itemView'=>'_view',
         'sortableAttributes'=>array(
-          'username'=>'登入名稱',
-          'useremail'=>'Email',
-          'active'=>'有效',
-          'created_at'=>'創建時間',
+          'inquirer_name'=>'查詢者姓名',
+          'inquirer_phone'=>'查詢者電話',
+          'gambler_name'=>'賭徒姓名',
+          'gambler_phone'=>'賭徒電話',
         ),
         'enablePagination'=>true,
         'pager'=>array(

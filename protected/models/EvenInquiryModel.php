@@ -3,7 +3,6 @@
 class EvenInquiryModel extends ExtendedEntity
 {
   public $entityid;
-  public $assigned_to;
   public $source;
   public $identity;
   public $identity_other;
@@ -18,9 +17,6 @@ class EvenInquiryModel extends ExtendedEntity
   public $gambler_marital_status;
   public $gambler_living_area;
   public $inquiry_datetime;
-
-  public $created_at;
-  public $modified_at;
 
   public static function model($className=__CLASS__)
   {
@@ -94,7 +90,7 @@ class EvenInquiryModel extends ExtendedEntity
   {
     return array(
       'entityid'=>'',
-      'assigned_to'=>array("picklist", "list"=>AssignedToModel::model()->findAll(), 'id'=>'assigned_to_id', 'value'=>'display_name', 'group'=>'group'),
+      'assigned_to'=>array("picklist", "list"=>AssignedToModel::model()->findAll(), 'id'=>'assigned_to', 'value'=>'display_name', 'group'=>'group'),
       'source'=>array("picklist", "list"=>$this->getEvenInquirySources(), 'id'=>'id', 'value'=>'value'),
       'identity'=>array("picklist", "list"=>$this->getEvenInquiryIdentities(), 'id'=>'id', 'value'=>'value'),
       'identity_other'=>array('textfield'),

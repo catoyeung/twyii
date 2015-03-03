@@ -23,8 +23,8 @@ class CalendarController extends Controller
 				'subject'=>$_POST['subject'],
 				'description'=>$_POST['description'],
 				'assigned_to'=>(int)$_POST['assigned_to'],
-				'from_datetime'=>DateTime::createFromFormat('m/d/Y H:i', $_POST['start_date'].' '.$_POST['start_time'])->format('Y-m-d H:i:00'),
-				'to_datetime'=>DateTime::createFromFormat('m/d/Y H:i', $_POST['end_date'].' '.$_POST['end_time'])->format('Y-m-d H:i:00')
+				'from_datetime'=>$_POST['from_datetime'],
+				'to_datetime'=>$_POST['to_datetime']
 			));
 			if($model->validate()){
 				$model->save();
@@ -35,7 +35,7 @@ class CalendarController extends Controller
 					'message'=>$model->getErrors()
 				);
 				$this->popup_message = $popup_message;
-				$this->render('index');
+				print_r($popup_message);
 			}
 		}
 	}
@@ -49,8 +49,8 @@ class CalendarController extends Controller
 				'subject'=>$_POST['subject'],
 				'description'=>$_POST['description'],
 				'assigned_to'=>(int)$_POST['assigned_to'],
-				'from_datetime'=>DateTime::createFromFormat('m/d/Y H:i', $_POST['start_date'].' '.$_POST['start_time'])->format('Y-m-d H:i:00'),
-				'to_datetime'=>DateTime::createFromFormat('m/d/Y H:i', $_POST['end_date'].' '.$_POST['end_time'])->format('Y-m-d H:i:00')
+				'from_datetime'=>$_POST['from_datetime'],
+				'to_datetime'=>$_POST['to_datetime']
 			));
 			if($model->validate()){
 				$model->save();

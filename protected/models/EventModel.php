@@ -28,12 +28,18 @@ class EventModel extends ExtendedEntity
       array('description', 'safe'),
       array('assigned_to', 'safe'),
       array('from_datetime', 'required'),
-      array('from_datetime', 'date', 'format'=>'yyyy-MM-dd HH:mm:ss'),
       array('to_datetime', 'required'),
-      array('to_datetime', 'date', 'format'=>'yyyy-MM-dd HH:mm:ss')
+      //array('to_datetime', 'fromToDateTimeRange'),
     );
     return $myRules;
   }
+
+  /*public function fromToDateTimeRange($to_datetime,$params)
+  {
+    $to_datetime_object = DateTime::createFromFormat('YYYY/MM/dd HH:ii:ss', $to_datetime);
+    $from_datetime_object = DateTime::createFromFormat('YYYY/MM/dd HH:ii:ss', $this->from_datetime);
+    if ($from_datetime_object > $to_datetime_object) $this->addError($to_datetime, "事件開始時間必須小於結束時間");
+  }*/
 
   public function relations()
   {
@@ -54,12 +60,13 @@ class EventModel extends ExtendedEntity
           'title'=>$event->subject,
           'assigned_to'=>$event->entity->assigned_to,
           'description'=>$event->description,
-          'start'=>DateTime::createFromFormat('Y-m-d H:i:s', $event->from_datetime)->format('Y-m-d\TH:i:00'),
-          'end'=>DateTime::createFromFormat('Y-m-d H:i:s', $event->to_datetime)->format('Y-m-d\TH:i:00')
+          'start'=>$event->from_datetime,
+          'end'=>$event->to_datetime
         )
       );
     }
 
     return $events_in_calendar_format;
   }
+
 }
